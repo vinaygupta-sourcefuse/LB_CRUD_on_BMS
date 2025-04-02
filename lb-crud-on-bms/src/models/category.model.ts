@@ -1,28 +1,33 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, model, property, hasMany} from '@loopback/repository';
+import {Book} from './book.model';
 
 @model()
 export class Category extends Entity {
   @property({
-    type: 'string',
-    required: true,
-  })
-  genre: string;
-
-  @property({
     type: 'number',
     id: true,
-    generated: true,
+    generated: true,  
   })
   category_id?: number;
 
+  @property({
+    type: 'string',
+    required: true,
+    unique: true,  
+  })
+  genre: string;
+
+  @hasMany(() => Book, {keyTo: 'category_id'})  
+  books: Book[];
 
   constructor(data?: Partial<Category>) {
     super(data);
   }
 }
 
+/** ✅ Add this missing export */
 export interface CategoryRelations {
-  // describe navigational properties here
+  books?: Book[];
 }
 
 export type CategoryWithRelations = Category & CategoryRelations;

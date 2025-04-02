@@ -3,7 +3,7 @@ import {DefaultCrudRepository} from '@loopback/repository';
 import {MysqlDataSource} from '../datasources';
 import {Category, CategoryRelations} from '../models';
 
-export class CategoryRepository extends DefaultCrudRepository<
+export class CategoryRepositoryRepository extends DefaultCrudRepository<
   Category,
   typeof Category.prototype.category_id,
   CategoryRelations

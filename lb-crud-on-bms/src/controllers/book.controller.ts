@@ -18,12 +18,12 @@ import {
   response,
 } from '@loopback/rest';
 import {Book} from '../models';
-import {BookRepository} from '../repositories';
+import {BookRepositoryRepository} from '../repositories';
 
-export class BookManagerController {
+export class BookController {
   constructor(
-    @repository(BookRepository)
-    public bookRepository : BookRepository,
+    @repository(BookRepositoryRepository)
+    public bookRepositoryRepository : BookRepositoryRepository,
   ) {}
 
   @post('/books')
@@ -37,14 +37,14 @@ export class BookManagerController {
         'application/json': {
           schema: getModelSchemaRef(Book, {
             title: 'NewBook',
-            // exclude: ['isbn'],
+            exclude: ['isbn'],
           }),
         },
       },
     })
-    book: Book,
+    book: Omit<Book, 'isbn'>,
   ): Promise<Book> {
-    return this.bookRepository.create(book);
+    return this.bookRepositoryRepository.create(book);
   }
 
   @get('/books/count')
@@ -55,7 +55,7 @@ export class BookManagerController {
   async count(
     @param.where(Book) where?: Where<Book>,
   ): Promise<Count> {
-    return this.bookRepository.count(where);
+    return this.bookRepositoryRepository.count(where);
   }
 
   @get('/books')
@@ -73,7 +73,7 @@ export class BookManagerController {
   async find(
     @param.filter(Book) filter?: Filter<Book>,
   ): Promise<Book[]> {
-    return this.bookRepository.find(filter);
+    return this.bookRepositoryRepository.find(filter);
   }
 
   @patch('/books')
@@ -92,7 +92,7 @@ export class BookManagerController {
     book: Book,
     @param.where(Book) where?: Where<Book>,
   ): Promise<Count> {
-    return this.bookRepository.updateAll(book, where);
+    return this.bookRepositoryRepository.updateAll(book, where);
   }
 
   @get('/books/{id}')
@@ -108,7 +108,7 @@ export class BookManagerController {
     @param.path.number('id') id: number,
     @param.filter(Book, {exclude: 'where'}) filter?: FilterExcludingWhere<Book>
   ): Promise<Book> {
-    return this.bookRepository.findById(id, filter);
+    return this.bookRepositoryRepository.findById(id, filter);
   }
 
   @patch('/books/{id}')
@@ -126,7 +126,7 @@ export class BookManagerController {
     })
     book: Book,
   ): Promise<void> {
-    await this.bookRepository.updateById(id, book);
+    await this.bookRepositoryRepository.updateById(id, book);
   }
 
   @put('/books/{id}')
@@ -137,7 +137,7 @@ export class BookManagerController {
     @param.path.number('id') id: number,
     @requestBody() book: Book,
   ): Promise<void> {
-    await this.bookRepository.replaceById(id, book);
+    await this.bookRepositoryRepository.replaceById(id, book);
   }
 
   @del('/books/{id}')
@@ -145,6 +145,6 @@ export class BookManagerController {
     description: 'Book DELETE success',
   })
   async deleteById(@param.path.number('id') id: number): Promise<void> {
-    await this.bookRepository.deleteById(id);
+    await this.bookRepositoryRepository.deleteById(id);
   }
 }

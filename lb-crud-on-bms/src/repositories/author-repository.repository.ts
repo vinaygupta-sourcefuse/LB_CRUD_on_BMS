@@ -3,7 +3,7 @@ import {DefaultCrudRepository} from '@loopback/repository';
 import {MysqlDataSource} from '../datasources';
 import {Author, AuthorRelations} from '../models';
 
-export class AuthorRepository extends DefaultCrudRepository<
+export class AuthorRepositoryRepository extends DefaultCrudRepository<
   Author,
   typeof Author.prototype.author_id,
   AuthorRelations

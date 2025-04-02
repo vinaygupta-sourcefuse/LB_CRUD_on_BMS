@@ -1,3 +1,3 @@
-export * from './author.repository';
-export * from './book.repository';
-export * from './category.repository';
+export * from './author-repository.repository';
+export * from './category-repository.repository';
+export * from './book-repository.repository';

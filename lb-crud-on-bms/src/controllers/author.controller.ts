@@ -18,12 +18,12 @@ import {
   response,
 } from '@loopback/rest';
 import {Author} from '../models';
-import {AuthorRepository} from '../repositories';
+import {AuthorRepositoryRepository} from '../repositories';
 
-export class AuthorManagerController {
+export class AuthorController {
   constructor(
-    @repository(AuthorRepository)
-    public authorRepository : AuthorRepository,
+    @repository(AuthorRepositoryRepository)
+    public authorRepositoryRepository : AuthorRepositoryRepository,
   ) {}
 
   @post('/authors')
@@ -44,7 +44,7 @@ export class AuthorManagerController {
     })
     author: Omit<Author, 'author_id'>,
   ): Promise<Author> {
-    return this.authorRepository.create(author);
+    return this.authorRepositoryRepository.create(author);
   }
 
   @get('/authors/count')
@@ -55,7 +55,7 @@ export class AuthorManagerController {
   async count(
     @param.where(Author) where?: Where<Author>,
   ): Promise<Count> {
-    return this.authorRepository.count(where);
+    return this.authorRepositoryRepository.count(where);
   }
 
   @get('/authors')
@@ -73,7 +73,7 @@ export class AuthorManagerController {
   async find(
     @param.filter(Author) filter?: Filter<Author>,
   ): Promise<Author[]> {
-    return this.authorRepository.find(filter);
+    return this.authorRepositoryRepository.find(filter);
   }
 
   @patch('/authors')
@@ -92,7 +92,7 @@ export class AuthorManagerController {
     author: Author,
     @param.where(Author) where?: Where<Author>,
   ): Promise<Count> {
-    return this.authorRepository.updateAll(author, where);
+    return this.authorRepositoryRepository.updateAll(author, where);
   }
 
   @get('/authors/{id}')
@@ -108,7 +108,7 @@ export class AuthorManagerController {
     @param.path.number('id') id: number,
     @param.filter(Author, {exclude: 'where'}) filter?: FilterExcludingWhere<Author>
   ): Promise<Author> {
-    return this.authorRepository.findById(id, filter);
+    return this.authorRepositoryRepository.findById(id, filter);
   }
 
   @patch('/authors/{id}')
@@ -126,7 +126,7 @@ export class AuthorManagerController {
     })
     author: Author,
   ): Promise<void> {
-    await this.authorRepository.updateById(id, author);
+    await this.authorRepositoryRepository.updateById(id, author);
   }
 
   @put('/authors/{id}')
@@ -137,7 +137,7 @@ export class AuthorManagerController {
     @param.path.number('id') id: number,
     @requestBody() author: Author,
   ): Promise<void> {
-    await this.authorRepository.replaceById(id, author);
+    await this.authorRepositoryRepository.replaceById(id, author);
   }
 
   @del('/authors/{id}')
@@ -145,6 +145,6 @@ export class AuthorManagerController {
     description: 'Author DELETE success',
   })
   async deleteById(@param.path.number('id') id: number): Promise<void> {
-    await this.authorRepository.deleteById(id);
+    await this.authorRepositoryRepository.deleteById(id);
   }
 }

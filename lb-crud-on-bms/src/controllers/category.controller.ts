@@ -18,12 +18,12 @@ import {
   response,
 } from '@loopback/rest';
 import {Category} from '../models';
-import {CategoryRepository} from '../repositories';
+import {CategoryRepositoryRepository} from '../repositories';
 
-export class CategoryManagerController {
+export class CategoryController {
   constructor(
-    @repository(CategoryRepository)
-    public categoryRepository : CategoryRepository,
+    @repository(CategoryRepositoryRepository)
+    public categoryRepositoryRepository : CategoryRepositoryRepository,
   ) {}
 
   @post('/categories')
@@ -44,7 +44,7 @@ export class CategoryManagerController {
     })
     category: Omit<Category, 'category_id'>,
   ): Promise<Category> {
-    return this.categoryRepository.create(category);
+    return this.categoryRepositoryRepository.create(category);
   }
 
   @get('/categories/count')
@@ -55,7 +55,7 @@ export class CategoryManagerController {
   async count(
     @param.where(Category) where?: Where<Category>,
   ): Promise<Count> {
-    return this.categoryRepository.count(where);
+    return this.categoryRepositoryRepository.count(where);
   }
 
   @get('/categories')
@@ -73,7 +73,7 @@ export class CategoryManagerController {
   async find(
     @param.filter(Category) filter?: Filter<Category>,
   ): Promise<Category[]> {
-    return this.categoryRepository.find(filter);
+    return this.categoryRepositoryRepository.find(filter);
   }
 
   @patch('/categories')
@@ -92,7 +92,7 @@ export class CategoryManagerController {
     category: Category,
     @param.where(Category) where?: Where<Category>,
   ): Promise<Count> {
-    return this.categoryRepository.updateAll(category, where);
+    return this.categoryRepositoryRepository.updateAll(category, where);
   }
 
   @get('/categories/{id}')
@@ -108,7 +108,7 @@ export class CategoryManagerController {
     @param.path.number('id') id: number,
     @param.filter(Category, {exclude: 'where'}) filter?: FilterExcludingWhere<Category>
   ): Promise<Category> {
-    return this.categoryRepository.findById(id, filter);
+    return this.categoryRepositoryRepository.findById(id, filter);
   }
 
   @patch('/categories/{id}')
@@ -126,7 +126,7 @@ export class CategoryManagerController {
     })
     category: Category,
   ): Promise<void> {
-    await this.categoryRepository.updateById(id, category);
+    await this.categoryRepositoryRepository.updateById(id, category);
   }
 
   @put('/categories/{id}')
@@ -137,7 +137,7 @@ export class CategoryManagerController {
     @param.path.number('id') id: number,
     @requestBody() category: Category,
   ): Promise<void> {
-    await this.categoryRepository.replaceById(id, category);
+    await this.categoryRepositoryRepository.replaceById(id, category);
   }
 
   @del('/categories/{id}')
@@ -145,6 +145,6 @@ export class CategoryManagerController {
     description: 'Category DELETE success',
   })
   async deleteById(@param.path.number('id') id: number): Promise<void> {
-    await this.categoryRepository.deleteById(id);
+    await this.categoryRepositoryRepository.deleteById(id);
   }
 }
