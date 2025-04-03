@@ -9,6 +9,7 @@ import {RestApplication} from '@loopback/rest';
 import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
 import {MySequence} from './sequence';
+import {LogInterceptor} from './interceptors/log.interceptor';
 
 export {ApplicationConfig};
 
@@ -18,6 +19,8 @@ export class LbCrudOnBmsApplication extends BootMixin(
   constructor(options: ApplicationConfig = {}) {
     super(options);
 
+    this.interceptor(LogInterceptor); // ✅ Apply globally
+    
     // Set up the custom sequence
     this.sequence(MySequence);
 

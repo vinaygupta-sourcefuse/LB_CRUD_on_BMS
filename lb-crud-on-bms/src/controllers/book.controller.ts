@@ -19,6 +19,7 @@ import {
 } from '@loopback/rest';
 import {Book} from '../models';
 import {BookRepositoryRepository} from '../repositories';
+import { intercept } from '@loopback/core';
 
 export class BookController {
   constructor(
@@ -58,6 +59,7 @@ export class BookController {
     return this.bookRepositoryRepository.count(where);
   }
 
+  @intercept('interceptors.LogInterceptor') // ✅ Apply interceptor only 
   @get('/books')
   @response(200, {
     description: 'Array of Book model instances',
